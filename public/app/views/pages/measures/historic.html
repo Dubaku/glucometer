@@ -1,0 +1,61 @@
+<div class="page-header">
+	<h1>
+		Stastistics 
+		<a  class="btn btn-default pull-right"><!-- href="/measures/create" -->
+			<span class="glyphicon glyphicon-plus"></span> 
+		</a>
+	</h1>
+
+</div>
+
+<div class="jumbotron text-center" ng-show="measure.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading Data...</p>
+</div>
+
+<p>
+<b>Measures:</b>
+<br> 
+{{measure.measures}}
+</p>
+
+<p>
+<b>My Measures:</b>
+<br> 
+{{mymeasures}}
+{{main.user._id}}
+{{$parent.teste}}
+{{measure.childteste}}
+</p>
+
+
+<table class="table table-bordered table-striped table-responsive"> <!-- ng-show="user.users" -->
+	<thead>
+		<tr>
+			<!-- <th>_id</th> -->
+			<th>Value</th>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Meal</th>
+			<th>Note</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="gmeasure in measure.measures">
+			<td>{{ gmeasure.value }}</td>
+			<td>{{ gmeasure.datetime | date : 'MM.dd.yyyy' }}</td>
+			<td>{{ gmeasure.datetime | date : 'h:mma' }}</td>
+			<td>{{ gmeasure.meal }}</td>
+			<td>{{ gmeasure.note }}</td>
+			
+			<td class="col-sm-2">
+				<a class = "btn btn-primary btn-xs"> <i class="glyphicon glyphicon-pencil"></i> </a><!-- ng-href="/users/{{ person._id }}" -->
+				<a href ="#" class="btn btn-danger btn-xs"> <i class="glyphicon glyphicon-remove"></i> </a> <!-- ng-click="user.deleteUser(person._id)"  -->
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
