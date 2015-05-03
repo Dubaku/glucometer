@@ -29,6 +29,8 @@ angular.module('authService', [])
     authFactory.logout = function() {
         // clear the token
         AuthToken.setToken();
+        $window.localStorage.removeItem('token');
+        $location.path('/login');
     };
 
     // check if a user is logged in

@@ -4,8 +4,6 @@ angular.module('mainCtrl', [])
 
     var vm = this;
 
-    vm.teste = "teste"
-
     // get info if a person is logged in
     vm.loggedIn = Auth.isLoggedIn();
 
@@ -16,7 +14,7 @@ angular.module('mainCtrl', [])
         // get user information on page load
         Auth.getUser()
             .then(function(data) {
-                vm.user = data.data;
+                $rootScope.me = vm.user = data.data;
             }); 
     }); 
 

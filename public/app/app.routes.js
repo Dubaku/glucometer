@@ -54,6 +54,21 @@ angular.module('app.routes', ['ngRoute'])
 			controllerAs: 'measure'
 		})
 
+		// form to create a new measure
+		// same view as edit page
+		.when('/measures/create', {
+			templateUrl: 'app/views/pages/measures/newmeasure.html',
+			controller: 'measureCreateController',
+			controllerAs: 'measure'
+		})
+
+		// page to edit a user
+		.when('/measures/:measure_id', {
+			templateUrl: 'app/views/pages/measures/newmeasure.html',
+			controller: 'measureEditController',
+			controllerAs: 'measure'
+		})
+
 		.when('/reports', {
 			templateUrl : 'app/views/pages/users/profile.html'
 		})

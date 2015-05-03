@@ -10,9 +10,26 @@ angular.module('measureService', [])
         return $http.get('/api/measures/');
     };
 
-    // get a single user
+    // get measures for single user
+    measureFactory.getByUser = function(id) {
+        return $http.get('/api/measures/all/' + id);
+    };
+
+     // get a single user
     measureFactory.get = function(id) {
         return $http.get('/api/measures/' + id);
+    };
+
+    measureFactory.create = function(measureData) {
+        return $http.post('/api/measures/', measureData);
+    };
+    
+    measureFactory.update = function(id, userData) {
+        return $http.put('/api/measures/' + id, userData);
+    };
+
+    measureFactory.delete = function(id) {
+        return $http.delete('/api/measures/' + id);
     };
 
     // return our entire measureFactory object

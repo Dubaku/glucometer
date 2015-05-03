@@ -19,8 +19,10 @@ module.exports = function(app, express) {
         // find the user
         User.findOne({
             username: req.body.username
-        }).select('_id name username password').exec(function(err, user) {
+        }).select('_id name username admin password').exec(function(err, user) {
 
+            console.log("\nAuthentication user:\n "+user+"\n\n"+user.name + "\n"+user.admin + "\n"+user._id + "\n");
+            
             if (err) throw err;
 
             // no user with that username was found
@@ -39,12 +41,14 @@ module.exports = function(app, express) {
                         message: 'Authentication failed. Wrong password.'
                     });
                 } else {
+
                     // if user is found and password is right
                     // create a token
                     var token = jwt.sign({
                         _id: user._id,
+                        username: user.username,
                         name: user.name,
-                        username: user.username
+                        admin: true
                     }, superSecret, {
                         expiresInMinutes: 1440 // expires in 24 hours
                     });
@@ -169,13 +173,12 @@ module.exports = function(app, express) {
 
                 // return a message
                 res.json({
-                    message: 'User created!'
+                    message: 'User Successfully Created!'
                 });
             });
         }
 
     })
-
     // get all the users (accessed at GET http://localhost:8080/api/users)
     .get(function(req, res) {
 
@@ -191,12 +194,12 @@ module.exports = function(app, express) {
     apiRouter.route('/users/name/:user_name')
     // get the user id with that name
     .get(function(req, res) {
-         User.find({ username: req.params.user_name } , function(err, user) {
-            if (err) res.send(err);
+       User.find({ username: req.params.user_name } , function(err, user) {
+        if (err) res.send(err);
             // return that user
             res.json(user);
         });
-    });
+   });
 
     // on routes that end in /users/:user_id
     // ----------------------------------------------------
@@ -209,7 +212,6 @@ module.exports = function(app, express) {
             res.json(user);
         });
     })
-
     // update the user with this id
     .put(function(req, res) {
         User.findById(req.params.user_id, function(err, user) {
@@ -227,13 +229,12 @@ module.exports = function(app, express) {
 
                 // return a message
                 res.json({
-                    message: 'User updated!'
+                    message: 'User Successfully Updated!'
                 });
             });
 
         });
     })
-
     // delete the user with this id
     .delete(function(req, res) {
         User.remove({
@@ -242,7 +243,7 @@ module.exports = function(app, express) {
             if (err) res.send(err);
 
             res.json({
-                message: 'Successfully deleted'
+                message: 'User Successfully Deleted'
             });
         });
     });
@@ -252,7 +253,38 @@ module.exports = function(app, express) {
     // on routes that end in /statistics
     // ----------------------------------------------------
     apiRouter.route('/measures')
-    
+
+    // create a measure
+    .post(function(req, res) {
+        var errormsg    = "";
+        var measure     = new Measure(); // create a new instance of the measure model
+        measure.user_id = req.body.user_id;
+        measure.value   = req.body.value;
+        measure.meal    = req.body.meal;
+        measure.note    = req.body.note;
+        measure.date    = req.body.date;
+
+        console.log(measure);
+        measure.save(function(err) {
+                if (err) {
+                    // duplicate entry
+                    if (err.code == 11000)
+                        return res.json({
+                            success: false,
+                            message: 'A measure with that id already exists.'
+                        });
+                    else
+                        return res.send(err);
+                }
+
+                // return a message
+                res.json({
+                    message: 'Measure Successfully created!'
+                });
+            });
+        
+    })
+
     // get all the measures (accessed at GET http://localhost:8080/measures)
     .get(function(req, res) {
         Measure.find({}, function(err, measures) {
@@ -263,13 +295,56 @@ module.exports = function(app, express) {
 
     // on routes that end in /users/:user_id
     // ----------------------------------------------------
-    apiRouter.route('/measures/:user_id')
+    apiRouter.route('/measures/all/:user_id')
     // get the user with that id
     .get(function(req, res) {
+        console.log("\n\nreq.params.user_id: " + req.params.user_id);
         Measure.find({ user_id: req.params.user_id } , function(err, measure) {
             if (err) res.send(err);
             // return that user
+            console.log("\n\nResponse: " + measure);
             res.json(measure);
+        });
+    });
+
+    // on routes that end in /users/:user_id
+    // ----------------------------------------------------
+    apiRouter.route('/measures/:measure_id')
+    // get the user with that id
+    .get(function(req, res) {
+        Measure.findOne({ _id: req.params.measure_id } , function(err, measure) {
+            if (err) res.send(err);
+            res.json(measure);
+        });
+    })
+    // update the user with this id
+    .put(function(req, res) {
+        Measure.findById(req.params.measure_id, function(err, measure) {
+            if (err) res.send(err);
+
+            // set the new user information if it exists in the request
+            if (req.body.value) measure.value = req.body.value;
+            if (req.body.meal) measure.meal = req.body.meal;
+            if (req.body.note) measure.note = req.body.note;
+            if (req.body.date) measure.date = req.body.date;
+            if (req.body.time) measure.time = req.body.time;
+        
+            console.log(measure);
+
+            measure.save(function(err) {
+                if (err) res.send(err);
+                res.json({message: 'Measure Successfully Updated!'});
+            });
+
+        });
+    })
+    // delete the user with this id
+    .delete(function(req, res) {
+        console.log("Measure.delete: " + req);
+        Measure.remove({ _id: req.params.measure_id}, function(err, measure) {
+            console.log("Measure.remove: " + measure);
+            if (err) res.send(err);
+            res.json({ message: 'Measure Successfully Deleted' });
         });
     });
 

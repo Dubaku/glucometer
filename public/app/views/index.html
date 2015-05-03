@@ -49,23 +49,24 @@
 						<span>{{ main.user.name }}</span>
 					</a>
 				</li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
-
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Dashboard</a></li>
-				<li><a href="/historic"><span class="glyphicon glyphicon-user"></span> Statistics</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Reports</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Appoitments</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Uploads</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Settings</a></li>
 				
-				<li ng-if="main.loggedIn" class="logout-btn"><a href="#" class="text-center" ng-click="main.doLogout()"> <span class="glyphicon glyphicon-logout"></span> Logout</a></li>
+				<li ng-if="main.user.admin"><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+
+				<li><a href="/users"><span class="glyphicon glyphicon-heart-empty"></span> Dashboard</a></li>
+				<li><a href="/historic"><span class="glyphicon glyphicon-stats"></span> Statistics</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-book"></span> Reports</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-calendar"></span> Appoitments</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon glyphicon-paperclip"></span> Uploads</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+				
+				<li ng-if="main.loggedIn" class="logout-btn"><a href="#" class="text-center" ng-click="main.doLogout()"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 			</ul>
 		</div>
 	</header>
 
 	<main class="content">
 
-	<div ng-if="main.loggedIn" class="well"> USER INFO: {{main.user}} </div>
+	<!-- <div ng-if="main.loggedIn" class="well"> USER INFO: {{main.user}} </div> -->
 
 		<!-- ANGULAR VIEWS -->
 		<div ng-view></div>

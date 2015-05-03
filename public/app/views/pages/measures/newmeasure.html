@@ -1,0 +1,63 @@
+<div class="page-header">
+	<h1 ng-if="measure.type == 'create'">New Measurement</h1>
+	<h1 ng-if="measure.type == 'edit'">Edit Measurement</h1>
+</div>
+
+<p>measure : <br>{{measure}}</p>
+
+
+<form class="form-horizontal" ng-submit="measure.saveMeasure()">
+	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Value</label>
+		<div class="col-sm-6">
+			<input type="number" class="form-control" ng-model="measure.measureData.value" value="111" required>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Date</label>
+		<div class="col-sm-6">
+			<input type="date" class="form-control" ng-model="measure.measureData.date" required value="2011-11-11">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Time</label>
+		<div class="col-sm-6">
+			<input type="time" class="form-control" ng-model="measure.measureData.time" required value="11:11">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Meal</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" ng-model="measure.measureData.meal" value="Lunch">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Note</label>
+		<div class="col-sm-6">
+			<textarea class="form-control" ng-model="measure.measureData.note">Apple</textarea>
+		</div>
+	</div>
+	
+	<div class="form-group">
+	<div class="col-sm-offset-2 col-sm-6">
+		<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="measure.type == 'create'">Create</button>
+		<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="measure.type == 'edit'">Update</button>
+	</div>
+	</div>
+
+</form>
+<hr>
+<b>Array: </b>{{ measure.measureData }}
+<hr>
+<div class="row show-hide-message" ng-show="measure.message">
+	<div class="col-sm-6 col-sm-offset-2">
+		<div class="alert alert-info">
+			{{ measure.message }}
+		</div>
+	</div>
+</div>

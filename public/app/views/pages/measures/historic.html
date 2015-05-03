@@ -1,7 +1,7 @@
 <div class="page-header">
 	<h1>
-		Stastistics 
-		<a  class="btn btn-default pull-right"><!-- href="/measures/create" -->
+		Historic 
+		<a href="/measures/create" class="btn btn-default pull-right">
 			<span class="glyphicon glyphicon-plus"></span> 
 		</a>
 	</h1>
@@ -13,26 +13,27 @@
 	<p>Loading Data...</p>
 </div>
 
-<p>
-<b>Measures:</b>
-<br> 
-{{measure.measures}}
-</p>
+<div ng-if="false">
+	<p>
+		<b>Measures:</b>
+		<br> 
+		{{measure.measures}}
+	</p>
+	<p>
+		<b>My Measures:</b>
+		<br> 
+		mymeasures : {{measure.mymeasures}}<br> 
+		main.user._id :{{main.user._id}}<br> 
+		$parent.main.user : {{$parent.main.user}}<br> 
+		measure.myself :{{measure.myself}}<br> 
+	</p>
+</div>
 
-<p>
-<b>My Measures:</b>
-<br> 
-{{mymeasures}}
-{{main.user._id}}
-{{$parent.teste}}
-{{measure.childteste}}
-</p>
 
-
-<table class="table table-bordered table-striped table-responsive"> <!-- ng-show="user.users" -->
+<table class="table table-bordered table-striped table-responsive" ng-if="measure.mymeasures.length>0">
 	<thead>
 		<tr>
-			<!-- <th>_id</th> -->
+			<th>userId</th>
 			<th>Value</th>
 			<th>Date</th>
 			<th>Time</th>
@@ -42,7 +43,8 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="gmeasure in measure.measures">
+		<tr ng-repeat="gmeasure in measure.mymeasures">
+			<td>{{ gmeasure.user_id }}</td>
 			<td>{{ gmeasure.value }}</td>
 			<td>{{ gmeasure.datetime | date : 'MM.dd.yyyy' }}</td>
 			<td>{{ gmeasure.datetime | date : 'h:mma' }}</td>
@@ -50,12 +52,22 @@
 			<td>{{ gmeasure.note }}</td>
 			
 			<td class="col-sm-2">
-				<a class = "btn btn-primary btn-xs"> <i class="glyphicon glyphicon-pencil"></i> </a><!-- ng-href="/users/{{ person._id }}" -->
-				<a href ="#" class="btn btn-danger btn-xs"> <i class="glyphicon glyphicon-remove"></i> </a> <!-- ng-click="user.deleteUser(person._id)"  -->
+				<a ng-href="/measures/{{gmeasure._id}}" class = "btn btn-primary btn-xs"> <i class="glyphicon glyphicon-pencil"></i> </a><!-- ng-href="/users/{{ person._id }}" -->
+				<a href="#" ng-click="measure.deleteMeasure(gmeasure._id)" class="btn btn-danger btn-xs"> <i class="glyphicon glyphicon-remove"></i> </a>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
+<div class="well" ng-if="measure.mymeasures.length<1">
+	<h3>You didn't uploaded any data yet.</h3>
+	<span class="lead">
+		You can add a single entry on the <span class=" btn btn-xs btn-default glyphicon glyphicon-plus"></span> button above.
+		Or upload your machine report on <span  class="btn btn-primary btn-xs round-btn"><!-- href="/measures/create" -->
+		Uploads
+	</span> button on the sidebar.
+</span>
+</div>
 
 
 
