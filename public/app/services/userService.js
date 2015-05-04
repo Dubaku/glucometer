@@ -6,11 +6,6 @@ angular.module('userService', [])
     var userFactory = {};
 
     // get a single user
-    userFactory.getidbyname = function(name) {
-        return $http.get('/api/users/' + name);
-    };
-
-    // get a single user
     userFactory.get = function(id) {
         return $http.get('/api/users/' + id);
     };

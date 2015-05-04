@@ -1,6 +1,6 @@
 angular.module('mainCtrl', [])
 
-.controller('mainController', function($rootScope, $scope, $location, Auth) {
+.controller('mainController', function($rootScope, $location, Auth) {
 
     var vm = this;
 
@@ -14,7 +14,7 @@ angular.module('mainCtrl', [])
         // get user information on page load
         Auth.getUser()
             .then(function(data) {
-                $rootScope.me = vm.user = data.data;
+                vm.user = data.data;
             }); 
     }); 
 
@@ -42,6 +42,7 @@ angular.module('mainCtrl', [])
     vm.doLogout = function() {
         Auth.logout();
         vm.user = '';
+        
         $location.path('/login');
     };
 

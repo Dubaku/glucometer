@@ -16,25 +16,65 @@
 	<!-- JS -->
 	<!-- load angular and angular-route via CDN -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
-	<!-- <script src="assets/js/angular.js"></script> -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-animate.js"></script>
 
 	<!-- controllers -->
 	<script src="app/controllers/mainCtrl.js"></script>
 	<script src="app/controllers/userCtrl.js"></script>
-	<script src="app/controllers/measureCtrl.js"></script>
 
 	<!-- services -->
 	<script src="app/services/authService.js"></script>
 	<script src="app/services/userService.js"></script>
-	<script src="app/services/measureService.js"></script>
 
 	<!-- main Angular app files -->
 	<script src="app/app.routes.js"></script>
 	<script src="app/app.js"></script>
 </head>
 <body ng-app="userApp" ng-controller="mainController as main">
+
+
+	<style type="text/css" media="screen">
+		.navbar.navbar-vertical{
+			position: fixed;
+			height: 100%;
+			width: 200px;
+			top: 0;
+			left: 0;
+		}
+		.navbar-nav li a {
+			width: 200px;
+			text-align: left;
+			min-height: 60px;
+			line-height: 60px;
+			border-bottom: 1px solid rgba(255,255,255,.25);
+			padding: 0 20px;
+			margin: 0 auto;
+			font-size: 1.25em;
+		}
+		.navbar-nav li.navbar-user a{
+			line-height: 1em;
+			padding: 20px 0;
+			text-align: center;
+		}
+		.navbar-nav .navbar-brand{
+			text-align: center;
+			margin: 0 auto;
+		}
+		.navbar-nav .logout-btn{
+			position: absolute;
+			left: 0;
+			bottom: 0;
+		}
+
+		.content{
+			width: 100%;
+			padding: 50px;
+			padding-left: 250px;
+			min-height: 100vh;
+		}
+
+	</style>
 
 	<!-- NAVBAR -->
 	<header>
@@ -46,28 +86,24 @@
 				<li ng-if="main.loggedIn" class="navbar-user">
 					<a href="/me"> 
 						<p> <img class="img-circle" width="40" height="40" src="http://flaviocastro.eu5.org/images/spic.jpg"> </p>
-						<span>{{ main.user.name }}</span>
+						<span>main.user.name{{ main.user }}</span>
 					</a>
 				</li>
-				
-				<li ng-if="main.user.admin"><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
 
-				<li><a href="/users"><span class="glyphicon glyphicon-heart-empty"></span> Dashboard</a></li>
-				<li><a href="/historic"><span class="glyphicon glyphicon-stats"></span> Statistics</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-book"></span> Reports</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-calendar"></span> Appoitments</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon glyphicon-paperclip"></span> Uploads</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Dashboard</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Statistics</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Reports</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Appoitments</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Uploads</a></li>
+				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Settings</a></li>
 				
-				<li ng-if="main.loggedIn" class="logout-btn"><a href="#" class="text-center" ng-click="main.doLogout()"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+				<li ng-if="main.loggedIn" class="logout-btn"><a href="#" class="text-center" ng-click="main.doLogout()"> <span class="glyphicon glyphicon-logout"></span> Logout</a></li>
 			</ul>
 		</div>
 	</header>
 
 	<main class="content">
-
-	<!-- <div ng-if="main.loggedIn" class="well"> USER INFO: {{main.user}} </div> -->
-
 		<!-- ANGULAR VIEWS -->
 		<div ng-view></div>
 	</main>

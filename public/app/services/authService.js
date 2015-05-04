@@ -13,7 +13,7 @@ angular.module('authService', [])
 
     // log a user in
     authFactory.login = function(username, password) {
-         AuthToken.setToken();
+
         // return the promise object and its data
         return $http.post('/api/authenticate', {
             username: username,
@@ -29,8 +29,6 @@ angular.module('authService', [])
     authFactory.logout = function() {
         // clear the token
         AuthToken.setToken();
-        $window.localStorage.removeItem('token');
-        $location.path('/login');
     };
 
     // check if a user is logged in
@@ -45,7 +43,7 @@ angular.module('authService', [])
     // get the logged in user
     authFactory.getUser = function() {
         if (AuthToken.getToken())
-            return $http.get('/api/me', { cache: false });
+            return $http.get('/api/me', { cache: true });
         else
             return $q.reject({ message: 'User has no token.' });        
     };
