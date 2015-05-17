@@ -12,29 +12,48 @@ angular.module('dashCtrl', ['n3-line-chart', 'ngProgress', 'measureService', 'us
         vm.processing = true;
 
         Measure.getByUser(vm.user_id)
-            .success(function(data) {
-                vm.mymeasures = data.reverse();
-                vm.minMeasure = vm.mymeasures[0];
-                vm.maxMeasure = vm.mymeasures[0];
-                vm.sumMeasure = 0;
-                vm.medMeasure = 0;
+        .success(function(data) {
+            vm.mymeasures = data.reverse();
 
-                for (var i = 0; i < vm.mymeasures.length; i++) {
-                    var obj = vm.mymeasures[i];
-                    vm.mymeasures[i].index = i;
-                    if (obj.value >= vm.maxMeasure) {
-                        vm.maxMeasure = obj;
-                    }
-                    if (obj.value <= vm.minMeasure) {
-                        vm.minMeasure = obj;
-                    }
-                    vm.sumMeasure += obj.value;
-                }
-                vm.medMeasure = vm.sumMeasure / vm.mymeasures.length;
-                vm.chartData = vm.mymeasures;
-                vm.processing = false;
-            });
+            vm.chartData = vm.mymeasures;
+
+            dataAnalysis(vm.mymeasures);
+            vm.processing = false;
+        });
     };
+
+    function dataAnalysis(array) {
+        vm.minMeasure = array[0];
+        vm.maxMeasure = array[0];
+        vm.sumMeasure = 0;
+        vm.medMeasure = 0;
+        for (var i = 0; i < array.length; i++) {
+            var obj = array[i];
+
+            //Just for the chart - DATE ERROR
+            array[i].index = i;
+
+            array[i].min = 70;
+            array[i].max = 120;
+
+            if (obj.value >= vm.maxMeasure.value) {
+                vm.maxMeasure = obj;
+            }
+            if (obj.value <= vm.minMeasure.value) {
+                vm.minMeasure = obj;
+            }
+
+            //Testing Dates
+            obj.x_date = new Date( new Date(obj.datetime).getTime() );
+
+            obj.y_time = ( ( new Date(obj.datetime).getHours() + "." + new Date(obj.datetime).getMinutes() ) * 450 ) / 24;
+
+            vm.sumMeasure += obj.value;
+        }
+        vm.medMeasure = vm.sumMeasure / array.length;
+    }
+
+
 
     vm.measuresFromLastDays = function(day_val) {
         var dateDayVal = new Date( new Date().getTime() - (day_val * 24 * 60 * 60 * 1000) );
@@ -57,19 +76,17 @@ angular.module('dashCtrl', ['n3-line-chart', 'ngProgress', 'measureService', 'us
         
         vm.widgetOp = false;
         vm.chartData = vm.filteredMeasures;
+        dataAnalysis(vm.filteredMeasures);
         console.log( "Total: " + vm.mymeasures.length + " | " + day_val + "days | " + vm.filteredMeasures.length + " | vm.count: " + vm.count);
     }
 
 
     vm.gcOptions = {
         axes: {
-            x: {
-                type: "linear",
-                key: "index"
-            },
-            y: {
-                type: "linear"
-            }
+            x: { type: "date", key: "x_date" },
+            y: { type: "linear" },
+            y2: { type: "linear" },
+            y3: { type: "linear" }
         },
         series: [{
             y: "value",
@@ -80,11 +97,34 @@ angular.module('dashCtrl', ['n3-line-chart', 'ngProgress', 'measureService', 'us
             thickness: "1px",
             dotSize: 2,
             id: "series_0"
-        }],
+        }
+        //,
+        // {
+        //     y: "y_time",
+        //     label: "Time",
+        //     color: "#bcbd22",
+        //     axis: "y",
+        //     type: "line",
+        //     thickness: "1px",
+        //     dotSize: 2,
+        //     id: "series_1"
+        // }
+        //,
+        //  {
+        //     y: "max",
+        //     label: "Glucose Values",
+        //     color: "blue",
+        //     axis: "y",
+        //     type: "line",
+        //     thickness: "1px",
+        //     dotSize: 2,
+        //     id: "series_2"
+        // }
+        ],
         tooltip: {
             mode: "scrubber",
             formatter: function(x, y, series) {
-                return y + " mg/dl";
+                return x.getDate() + "." + x.getMonth() + "." + x.getFullYear() + " " + y + "mg/dl";
             }
         },
         stacks: [],

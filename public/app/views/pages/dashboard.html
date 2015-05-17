@@ -17,7 +17,7 @@
         padding: 10px;
     }
 
-    .x.axis,.y.axis{ display: none; }
+    .widget-body .x.axis, .widget-body .y.axis{ display: none; }
 </style>
 
 <section class="widget-holder col-xs-12 col-sm-5 col-lg-4">
@@ -40,20 +40,22 @@
     </div>
     <div class="widget-body">
         <linechart data="dash.chartData" options="dash.gcOptions" mode="" width="" height="300"></linechart>
+        <div class="clearfix"></div>
+
+        <div><span class="glyphicon glyphicon-tint text-warning"></span> med: {{dash.medMeasure | number: 0}} mg/dl</div>
+        <div><span class="glyphicon glyphicon-tint text-danger"></span> min: {{dash.maxMeasure.value}} mg/dl</div>
+        <div><span class="glyphicon glyphicon-tint text-success"></span> max: {{dash.minMeasure.value}} mg/dl</div>
     </div>
 </div>
 </section>
 
 <div class="clearfix"></div>
 
-<p>minMeasure: {{dash.minMeasure.value}}</p>
-<p>maxMeasure: {{dash.maxMeasure.value}}</p>
-<p>sumMeasure: {{dash.sumMeasure}}</p>
-<p>medMeasure: {{dash.medMeasure}}</p>
+<linechart data="dash.chartData" options="dash.gcOptions" mode="" width="" height="300"></linechart>
 
 <!-- <p>mymeasures: {{dash.chartData}}</p> -->
-<div class="col-xs-3"><p ng-repeat="chartValue in dash.chartData">{{chartValue.datetime}}</p></div>
-<div class="col-xs-3"><p ng-repeat="measureValue in dash.mymeasures">{{measureValue.datetime}}</p></div>
+<!-- <div class="col-xs-3"><p ng-repeat="chartValue in dash.chartData">{{chartValue.datetime}}</p></div>
+<div class="col-xs-3"><p ng-repeat="measureValue in dash.mymeasures">{{measureValue.datetime}}</p></div> -->
 
 
 
