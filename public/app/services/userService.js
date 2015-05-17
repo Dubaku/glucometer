@@ -6,6 +6,11 @@ angular.module('userService', [])
     var userFactory = {};
 
     // get a single user
+    userFactory.getidbyname = function(name) {
+        return $http.get('/api/users/' + name);
+    };
+
+    // get a single user
     userFactory.get = function(id) {
         return $http.get('/api/users/' + id);
     };
@@ -28,6 +33,17 @@ angular.module('userService', [])
     // delete a user
     userFactory.delete = function(id) {
         return $http.delete('/api/users/' + id);
+    };
+
+    // updatepicture
+    userFactory.getPicture = function(id) {
+        return $http.get('/api/users/pic/' + id);
+    };
+
+    // updatepicture
+    userFactory.updatePicture = function(id, picData) {
+        console.log(id + "\n" + picData);
+        return $http.put('/api/users/pic/' + id, picData);
     };
 
     // return our entire userFactory object

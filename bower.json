@@ -1,0 +1,27 @@
+{
+  "name": "glucometer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Dubaku/glucometer",
+  "authors": [
+    "Flavio <flaviocastro2013@gmail.com>"
+  ],
+  "description": "Glucometer Web App",
+  "main": "server.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/assets/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-base64-upload": "~0.0.8",
+    "angular-h-sweetalert": "~1.4.2",
+    "bootstrap": "~3.3.4",
+    "n3-line-chart": "~1.1.6",
+    "ngprogress": "~1.0.7",
+    "sweetalert": "~0.5.0"
+  }
+}

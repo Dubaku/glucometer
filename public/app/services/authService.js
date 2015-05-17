@@ -6,14 +6,14 @@ angular.module('authService', [])
 // inject $q to return promise objects
 // inject AuthToken to manage tokens
 // ===================================================
-.factory('Auth', function($http, $q, AuthToken) {
+.factory('Auth', function($http, $q, $window, $location, AuthToken) {
 
     // create auth factory object
     var authFactory = {};
 
     // log a user in
     authFactory.login = function(username, password) {
-
+         AuthToken.setToken();
         // return the promise object and its data
         return $http.post('/api/authenticate', {
             username: username,
@@ -29,6 +29,8 @@ angular.module('authService', [])
     authFactory.logout = function() {
         // clear the token
         AuthToken.setToken();
+        $window.localStorage.removeItem('token');
+        $location.path('/login');
     };
 
     // check if a user is logged in
@@ -43,7 +45,7 @@ angular.module('authService', [])
     // get the logged in user
     authFactory.getUser = function() {
         if (AuthToken.getToken())
-            return $http.get('/api/me', { cache: true });
+            return $http.get('/api/me', { cache: false });
         else
             return $q.reject({ message: 'User has no token.' });        
     };

@@ -10,71 +10,52 @@
 	<!-- CSS  -->
 	<!-- load bootstrap from CDN and custom CSS -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/paper/bootstrap.min.css">
+	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/glucostyles.css">
 
 	<!-- JS -->
 	<!-- load angular and angular-route via CDN -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+	<!-- <script src="assets/js/angular.js"></script> -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-animate.js"></script>
 
 	<!-- controllers -->
 	<script src="app/controllers/mainCtrl.js"></script>
 	<script src="app/controllers/userCtrl.js"></script>
+	<script src="app/controllers/measureCtrl.js"></script>
+	<script src="app/controllers/dashCtrl.js"></script>
 
 	<!-- services -->
 	<script src="app/services/authService.js"></script>
 	<script src="app/services/userService.js"></script>
+	<script src="app/services/measureService.js"></script>
 
 	<!-- main Angular app files -->
 	<script src="app/app.routes.js"></script>
 	<script src="app/app.js"></script>
+
+
+	<!-- Extensions -->
+	<!-- Sweet Alert -->
+	<link rel="stylesheet" type="text/css" href="assets/libs/sweetalert/lib/sweet-alert.css">
+	<script type="text/javascript" src="assets/libs/sweetalert/lib/sweet-alert.min.js"></script>
+	<script type="text/javascript" src="assets/libs/angular-h-sweetalert/dist/ngSweetAlert.js"></script>
+
+	<!-- NgProgress -->
+	<!-- <link rel="stylesheet" type="text/css" href="assets/libs/ngprogress/ngProgress.css"> -->
+	<script type="text/javascript" src="assets/libs/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+
+	<!-- angular-base64-upload -->
+	<script type="text/javascript" src="assets/libs/ngprogress/build/ngProgress.min.js"></script>
+
+	<!-- n3-charts D3 -->
+	<script type="text/javascript" src="assets/libs/d3/d3.min.js"></script>
+	<script type="text/javascript" src="assets/libs/n3-line-chart/build/line-chart.min.js"></script>
+
 </head>
 <body ng-app="userApp" ng-controller="mainController as main">
-
-
-	<style type="text/css" media="screen">
-		.navbar.navbar-vertical{
-			position: fixed;
-			height: 100%;
-			width: 200px;
-			top: 0;
-			left: 0;
-		}
-		.navbar-nav li a {
-			width: 200px;
-			text-align: left;
-			min-height: 60px;
-			line-height: 60px;
-			border-bottom: 1px solid rgba(255,255,255,.25);
-			padding: 0 20px;
-			margin: 0 auto;
-			font-size: 1.25em;
-		}
-		.navbar-nav li.navbar-user a{
-			line-height: 1em;
-			padding: 20px 0;
-			text-align: center;
-		}
-		.navbar-nav .navbar-brand{
-			text-align: center;
-			margin: 0 auto;
-		}
-		.navbar-nav .logout-btn{
-			position: absolute;
-			left: 0;
-			bottom: 0;
-		}
-
-		.content{
-			width: 100%;
-			padding: 50px;
-			padding-left: 250px;
-			min-height: 100vh;
-		}
-
-	</style>
 
 	<!-- NAVBAR -->
 	<header>
@@ -82,28 +63,30 @@
 			<ul class="nav navbar-nav">
 				<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
 				
-				<li><a href="/" class="navbar-brand"><span class="glyphicon glyphicon-tint text-danger"></span> glucoMeter</a></li>
-				<li ng-if="main.loggedIn" class="navbar-user">
-					<a href="/me"> 
-						<p> <img class="img-circle" width="40" height="40" src="http://flaviocastro.eu5.org/images/spic.jpg"> </p>
-						<span>main.user.name{{ main.user }}</span>
+				<li ng-class="{ active: main.isActive('/') }"><a href="/" class="navbar-brand"><span class="glyphicon glyphicon-tint text-danger"></span> glucoMeter</a></li>
+				<li ng-class="{ active: main.isActive('/myprofile') }" ng-if="main.loggedIn" class="navbar-user">
+					<a href="/myprofile"> 
+						<p> <img class="img-circle" width="40" height="40" src="{{main.user.pic}}"> </p>
+						<span>{{ main.user.name }}</span>
 					</a>
 				</li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
-
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Dashboard</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Statistics</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Reports</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Appoitments</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Uploads</a></li>
-				<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Settings</a></li>
 				
-				<li ng-if="main.loggedIn" class="logout-btn"><a href="#" class="text-center" ng-click="main.doLogout()"> <span class="glyphicon glyphicon-logout"></span> Logout</a></li>
+				<li ng-class="{ active: main.isActive('/users') }" ng-if="main.user.admin"><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+
+				<li ng-class="{ active: main.isActive('/dashboard') }"><a href="/dashboard"><span class="glyphicon glyphicon-heart-empty"></span> Dashboard</a></li>
+				<li ng-class="{ active: main.isActive('/historic') }"><a href="/historic"><span class="glyphicon glyphicon-stats"></span> Statistics</a></li>
+				<li ng-class="{ active: main.isActive('/reports') }"><a href="/users"><span class="glyphicon glyphicon-book"></span> Reports</a></li>
+				<li ng-class="{ active: main.isActive('/appoitments') }"><a href="/users"><span class="glyphicon glyphicon-calendar"></span> Appoitments</a></li>
+				<li ng-class="{ active: main.isActive('/upload') }"><a href="/upload"><span class="glyphicon glyphicon glyphicon-paperclip"></span> Uploads</a></li>
+				<li ng-class="{ active: main.isActive('/settings') }"><a href="/users"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+				
+				<li ng-if="main.loggedIn" class="logout-btn"><a href="#" class="text-center" ng-click="main.doLogout()"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 			</ul>
 		</div>
 	</header>
 
 	<main class="content">
+		<!-- <div ng-if="main.loggedIn" class="well"> USER INFO: {{main.user}} </div> -->
 		<!-- ANGULAR VIEWS -->
 		<div ng-view></div>
 	</main>

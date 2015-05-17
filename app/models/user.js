@@ -13,6 +13,9 @@ var UserSchema   = new Schema({
 	birthdate: { type: Date, default: Date.now },
 	weight: Number,
 	height:  Number,
+	data: [],
+	picture: [],
+	pic: String,
 	password: { type: String, required: true, select: false }
 });
 

@@ -1,0 +1,59 @@
+<h1>Uploads</h1>
+<input type="file" on-read-file="showContent($fileContent)" ng-model="measure.fileinput" />
+
+<div ng-if="fileuploaded">
+
+	<div class="jumbotron text-center" ng-show="measure.mymeasures.length<1">
+		<svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+			<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+		</svg>
+		<h5 class="text-center">Loading Data...</h5>
+	</div>
+
+
+	<div class="measure-upload-wrapper" ng-if="measure.fileLines.length>0">
+		<h2 class="text-right">
+			<a href="#" class="btn btn-danger" ng-click="measure.clearDataFile()"> <i class="glyphicon glyphicon-remove"></i> </a>
+			<a href="#" class="btn btn-success" ng-click="measure.uploadDataFile()"> <i class="glyphicon glyphicon-save"></i> Gravar </a>
+		</h2>
+
+		<table class="table table-bordered table-striped table-responsive">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Data</th>
+					<th>Hora</th>
+					<th>Valor</th>
+					<th>Unidade</th>
+					<!-- <th>Aviso de Temperatura</th> -->
+					<th>Valor Alto</th>
+					<th>Outro</th>
+					<th>Antes de Comer</th>
+					<th>Depois de Comer</th>
+					<th>Controlo</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="line in measure.fileLines"> <!-- | limitTo: 10 -->
+					<td>{{ $index }}</td>
+					<td>{{ line[0] }}</td>
+					<td>{{ line[1] }}</td>
+					<td>{{ line[2] }}</td>
+					<td>{{ line[3] }}</td>
+					<!-- <td>{{ line[4] }}</td> -->
+					<td>{{ line[5] }}</td>
+					<td>{{ line[6] }}</td>
+					<td>{{ line[7] }}</td>
+					<td>{{ line[8] }}</td>
+					<td>{{ line[9] }}</td>
+					<td>
+						<input type="checkbox" name="" value="">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- measure-upload-wrapper END -->
+</div> 

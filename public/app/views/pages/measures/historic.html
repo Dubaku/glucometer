@@ -9,9 +9,11 @@
 </div>
 
 <div class="jumbotron text-center" ng-show="measure.processing">
-	<span class="glyphicon glyphicon-repeat spinner"></span>
-	<p>Loading Data...</p>
-</div>
+		<svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+			<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+		</svg>
+		<h5 class="text-center">Loading Data...</h5>
+	</div>
 
 <div ng-if="false">
 	<p>
@@ -63,11 +65,6 @@
 	<h3>You didn't uploaded any data yet.</h3>
 	<span class="lead">
 		You can add a single entry on the <span class=" btn btn-xs btn-default glyphicon glyphicon-plus"></span> button above.
-		Or upload your machine report on <span  class="btn btn-primary btn-xs round-btn"><!-- href="/measures/create" -->
-		Uploads
-	</span> button on the sidebar.
+		Or upload your machine report on <a href="/upload" class="btn btn-primary btn-xs round-btn"> Uploads </a> button on the sidebar.
 </span>
 </div>
-
-
-
