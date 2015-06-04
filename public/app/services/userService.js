@@ -42,7 +42,6 @@ angular.module('userService', [])
 
     // updatepicture
     userFactory.updatePicture = function(id, picData) {
-        console.log(id + "\n" + picData);
         return $http.put('/api/users/pic/' + id, picData);
     };
 
