@@ -43,7 +43,7 @@ module.exports = function(app, express) {
                 } else {
                     // if user is found and password is right
                     // create a token
-                    console.log("\n\n\n----------------------------------------------" + user + "\n-------------------------------\n\n");
+                    //console.log("\n\n\n----------------------------------------------" + user + "\n-------------------------------\n\n");
                     var token = jwt.sign({
                         _id: user._id,
                         username: user.username,
@@ -203,23 +203,22 @@ module.exports = function(app, express) {
    });
 
     apiRouter.route('/users/pic/:user_id')
-    // update user picture
+    // get user picture
      .get(function(req, res) {
         User.findById(req.params.user_id, function(err, user) {
             if (err) res.send(err);
             // return that user
-            res.json(user.picture);
+            //res.json(user.picture);
+            res.json(user.pic);
         });
     })
+    // update user picture
     .put(function(req, res) {
+
         User.findById(req.params.user_id, function(err, user) {
             if (err) res.send(err);
-            // set the new user information if it exists in the request
-            //"filetype":"image/jpeg","filename":"user.jpg","filesize":22430,"base64"
-            console.log("\n\n/users/pic/\n" + req.body);
-            return;
-            if (req.body.name) user.picture = req.body.name;
             
+            if (req.body.pic) user.pic = req.body.pic;
             // save the user
             user.save(function(err) {
                 if (err) res.send(err);
