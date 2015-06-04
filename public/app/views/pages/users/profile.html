@@ -2,13 +2,27 @@
 
 	<H1>{{ main.user.name }}</H1>
 
-	<input type='file' ng-model='selfUser.mypic' base-sixty-four-input>
-	<img ng-if="selfUser.mypic" src="data:{{selfUser.mypic.filetype}};base64,{{selfUser.mypic.base64}}" />
-	<button ng-if="selfUser.mypic" ng-click="selfUser.updatePicture()" class="btn btn-xs btn-primary"> <span class="glyphicon glyphicon-upload"></span> upload</button>
+	<div class="row">
+		<div class="col-xs-12">
+			<input type='file' ng-model='selfUser.newpic' base-sixty-four-input ng-change="selfUser.updatePicture()">
+			<!-- <img ng-if="selfUser.mypic" src="data:{{selfUser.mypic.filetype}};base64,{{selfUser.mypic.base64}}" /> -->
+			<img ng-if="selfUser.info.pic" src="{{selfUser.info.pic}}" />
+			<!-- <button ng-if="selfUser.mypic" ng-click="selfUser.updatePicture()" class="btn btn-xs btn-primary"> <span class="glyphicon glyphicon-upload"></span> upload</button> -->
+		</div>
+	</div>
+	
 	<!-- <pre>{{selfUser.mypic}}</pre> -->
-	<hr>
+	<pre>{{selfUser.newpic.length}}</pre>
+	<pre>
+		{{ main.user.pic.length }} vs {{ selfUser.info.pic.length }}
+	</pre>
+<!-- 	<hr>
+	<p><img class="img-circle" width="40" height="40" ng-src="{{selfUser.pic}}"></p>
 	<p>USER:{{main.user}}</p>
-	<hr>
-	<p><img src="{{main.user.pic}}" alt=""></p>
+
+	<p>selfUser:{{selfUser}}</p>
+	
+	<hr> -->
+	
 
 </section>

@@ -17,45 +17,84 @@
         padding: 10px;
     }
 
-    .widget-body .x.axis, .widget-body .y.axis{ display: none; }
+    /*.widget-body .x.axis, .widget-body .y.axis{ display: none; }*/
 </style>
 
 <section class="widget-holder col-xs-12 col-sm-5 col-lg-4">
     <div class="widget">
         <div class="widget-header">
-            <span class="widget-title">Glucose</span>
+        <span class="widget-title"> <b>Glucose</b> </span>
             <!-- <span class="pull-right">90 days <span class="glyphicon glyphicon-chevron-down"></span> </span> -->
 
             <div class="dropdown pull-right">
-            <span ng-click="dash.widgetOp = !dash.widgetOp">
-                {{dash.widgetSelected}} <span class="caret"></span>
-            </span>
-            <ul class="dropdown-menu" role="menu" ng-show="dash.widgetOp" style="display: block;">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(30)">{{dash.widgetSelectedOptions[0]}}</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(90)">{{dash.widgetSelectedOptions[1]}}</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(365)">{{dash.widgetSelectedOptions[2]}}</a></li>
-            </ul>
+                <span ng-click="dash.widgetOp = !dash.widgetOp">
+                    {{dash.widgetSelected}} <span class="caret"></span>
+                </span>
+                <ul class="dropdown-menu" role="menu" ng-show="dash.widgetOp" style="display: block;">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(30)">{{dash.widgetSelectedOptions[0]}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(90)">{{dash.widgetSelectedOptions[1]}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(365)">{{dash.widgetSelectedOptions[2]}}</a></li>
+                </ul>
+            </div>
+
         </div>
-
+        <div class="widget-body">
+            <linechart data="dash.chartData" options="dash.gcOptions" mode="" width="" height="300"></linechart>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div><span class="glyphicon glyphicon-tint text-danger"></span> max: {{dash.maxMeasure.value}} mg/dl</div>
+                    <div><span class="glyphicon glyphicon-tint text-warning"></span> med: {{dash.medMeasure | number: 0}} mg/dl</div>
+                    <div><span class="glyphicon glyphicon-tint text-primary"></span> min: {{dash.minMeasure.value}} mg/dl</div>
+                </div>
+                <div class="col-xs-6">
+                    <div><span class="ion-clipboard text-success"></span> HA1c: {{ dash.ha1c | number: 0 }} %</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="widget-body">
-        <linechart data="dash.chartData" options="dash.gcOptions" mode="" width="" height="300"></linechart>
-        <div class="clearfix"></div>
+</section>
 
-        <div><span class="glyphicon glyphicon-tint text-warning"></span> med: {{dash.medMeasure | number: 0}} mg/dl</div>
-        <div><span class="glyphicon glyphicon-tint text-danger"></span> min: {{dash.maxMeasure.value}} mg/dl</div>
-        <div><span class="glyphicon glyphicon-tint text-success"></span> max: {{dash.minMeasure.value}} mg/dl</div>
+<section class="widget-holder col-xs-12 col-sm-5 col-lg-4">
+    <div class="widget">
+        <div class="widget-header">
+        <span class="widget-title"> <b>HA1c</b> </span>
+            <div class="dropdown pull-right">
+                <span ng-click="dash.widgetOp = !dash.widgetOp">
+                    {{dash.widgetSelected}} <span class="caret"></span>
+                </span>
+                <ul class="dropdown-menu" role="menu" ng-show="dash.widgetOp" style="display: block;">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(30)">{{dash.widgetSelectedOptions[0]}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(90)">{{dash.widgetSelectedOptions[1]}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="dash.measuresFromLastDays(365)">{{dash.widgetSelectedOptions[2]}}</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="widget-body">
+            <linechart data="dash.measuresByMonth" options="dash.measuresByMonthOptions" mode="" width="" height="300"></linechart>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="text-center"><span class="glyphicon glyphicon-tint text-danger"></span> max: {{ dash.measuresByMonthStats.max }} %</div>
+                    
+                </div>
+                <div class="col-xs-6">
+                    <div class="text-center"><span class="glyphicon glyphicon-tint text-primary"></span> min: {{ dash.measuresByMonthStats.min }} %</div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 </section>
 
 <div class="clearfix"></div>
 
-<linechart data="dash.chartData" options="dash.gcOptions" mode="" width="" height="300"></linechart>
+
 
 <!-- <p>mymeasures: {{dash.chartData}}</p> -->
 <!-- <div class="col-xs-3"><p ng-repeat="chartValue in dash.chartData">{{chartValue.datetime}}</p></div>
-<div class="col-xs-3"><p ng-repeat="measureValue in dash.mymeasures">{{measureValue.datetime}}</p></div> -->
+    <div class="col-xs-3"><p ng-repeat="measureValue in dash.mymeasures">{{measureValue.datetime}}</p></div> -->
+    <p>measuresByMonth: {{dash.measuresByMonth}}</p>
 
 
 
