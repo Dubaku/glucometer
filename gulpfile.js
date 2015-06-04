@@ -53,6 +53,12 @@ gulp.task('build-css', function() {
         .pipe(gulp.dest('public/assets/css')).on('error', gutil.log);
 });
 
+// Fonts
+gulp.task('fonts', function() {
+    return gulp.src(['public/assets/libs/ionicons/fonts/ionicons.*'])
+            .pipe(gulp.dest('public/assets/fonts/'));
+});
+
 // Default task
 gulp.task('watch', function() {
     //gulp.watch('assets/js/libs/**/*.js', ['squish-jquery']);
